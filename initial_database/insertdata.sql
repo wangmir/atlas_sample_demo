@@ -1,0 +1,1 @@
+insert into testschema.testtable (id, name, description, test_array_of_array, test_array_of_int) values ('test_id', 'test', 'test', '{{1,2,3},{4,5,6}}', '{1,2,3}');
