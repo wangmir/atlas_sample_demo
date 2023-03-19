@@ -95,6 +95,7 @@ func TestInsertAndGet(t *testing.T) {
 
 	_, err = conn.Exec(context.Background(), query, args...)
 	require.NoError(t, err)
+	conn.Close(context.Background())
 }
 
 func TestMaterializedViewGet(t *testing.T) {
