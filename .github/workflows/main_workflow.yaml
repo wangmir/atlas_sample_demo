@@ -21,8 +21,12 @@ jobs:
         with:
           go-version: '1.20'
           cache-dependency-path: tester/go.sum
+
+      - name: Install Atlas
+        run: |
+          curl -sSf https://atlasgo.sh | sh
       - name: Launch docker for postgres
-        working-directory: ./initial_database
+        working-directory: ./schema/
         run: ./establish.sh
 
       # test db_initial_test
