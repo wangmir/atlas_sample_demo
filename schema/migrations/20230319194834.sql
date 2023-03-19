@@ -1,0 +1,2 @@
+-- Create "test_new_table" table
+CREATE TABLE "testschema"."test_new_table" ("id" character varying(32) NOT NULL, "name" character varying(255) NOT NULL, "sample_new_column" character varying(255) NOT NULL DEFAULT 'default_value_sample_new_column', "testtable_id" character varying(32) NOT NULL, PRIMARY KEY ("id"), CONSTRAINT "testtable_id" FOREIGN KEY ("testtable_id") REFERENCES "testschema"."testtable" ("id") ON UPDATE NO ACTION ON DELETE CASCADE);

@@ -32,6 +32,39 @@ table "testtable" {
     columns = [column.name]
   }
 }
+
+table "test_new_table" {
+  schema = schema.testschema
+  column "id" {
+    null = false
+    type = character_varying (32)
+  }
+  column "name" {
+    null = false
+    type = character_varying (255)
+  }
+  column "sample_new_column" {
+    null = false
+    type = character_varying (255)
+    default = "default_value_sample_new_column"
+  }
+  column "testtable_id" {
+    null = false
+    type = character_varying (32)
+  }
+
+  primary_key {
+    columns = [column.id]
+  }
+
+  foreign_key "testtable_id" {
+    columns     = [column.testtable_id]
+    ref_columns = [table.testtable.column.id]
+    on_update   = NO_ACTION
+    on_delete   = CASCADE
+  }
+}
+
 schema "public" {
 }
 schema "testschema" {
