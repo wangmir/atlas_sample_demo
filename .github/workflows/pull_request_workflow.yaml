@@ -1,15 +1,13 @@
-name: Basic build & Unit test for main branch push.
-
+name: Test for pull request.
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
+  pull_request:
     branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  go-test:
+  test-db-migration:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,9 +29,21 @@ jobs:
         run: |
           curl -sSf https://atlasgo.sh | sh
 
-      - name: Launch docker for postgres
-        working-directory: ./schema/
+      # establish db from main branch
+      - name: Checkout main branch to main_branch directory
+        uses: actions/checkout@v3
+        with:
+          path: main_branch
+          ref: main
+
+      - name: Launch docker for postgres with main branch schema
+        working-directory: ./main_branch/schema/
         run: ./establish.sh
+
+      # apply migration from current pull request
+      - name: Run migration script from current pull request
+        working-direory: ./schema/
+        run: ./apply_updates.sh
 
       # test db_initial_test
       - name: Test db_initial_test
