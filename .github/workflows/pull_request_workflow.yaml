@@ -18,13 +18,6 @@ jobs:
           go-version: '1.20'
           cache-dependency-path: tester/go.sum
 
-      # check lint for atlas
-      - uses: ariga/atlas-action@v0
-        with:
-          dir: schema/migrations
-          dir-format: atlas # Or: golang-migrate, liquibase, flyway, goose, dbmate
-          dev-url: "docker://postgres/15"
-
       - name: Install Atlas
         run: |
           curl -sSf https://atlasgo.sh | sh
@@ -42,8 +35,8 @@ jobs:
 
       # apply migration from current pull request
       - name: Run migration script from current pull request
-        working-direory: ./schema/
-        run: ./apply_updates.sh
+        working-directory: ./schema/
+        run: ./apply_update.sh
 
       # test db_initial_test
       - name: Test db_initial_test
