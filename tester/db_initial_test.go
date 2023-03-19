@@ -3,6 +3,7 @@ package tester
 import (
 	"context"
 	"testing"
+	"time"
 
 	sb "github.com/huandu/go-sqlbuilder"
 	"github.com/jackc/pgx/v5"
@@ -17,7 +18,13 @@ type TestStruct struct {
 	TestArrayOfInt   []int   `db:"test_array_of_int"`
 }
 
+type TestMaterializedViewStruct struct {
+	Data string    `db:"t_data"`
+	Time time.Time `db:"t_time"`
+}
+
 var userStruct = sb.NewStruct(new(TestStruct)).For(sb.PostgreSQL)
+var materializedViewStruct = sb.NewStruct(new(TestMaterializedViewStruct)).For(sb.PostgreSQL)
 
 func connectToDatabse(t *testing.T) *pgx.Conn {
 	conn, err := pgx.Connect(context.Background(), "postgres://testuser:test1234@localhost:5832/test")
@@ -31,7 +38,7 @@ func TestPostgresDatabaseInit(t *testing.T) {
 	defer conn.Close(context.Background())
 }
 
-func TestPostgresDatabaseInsertAndGet(t *testing.T) {
+func TestInsertAndGet(t *testing.T) {
 	conn := connectToDatabse(t)
 
 	// Insert a single row
@@ -88,4 +95,26 @@ func TestPostgresDatabaseInsertAndGet(t *testing.T) {
 
 	_, err = conn.Exec(context.Background(), query, args...)
 	require.NoError(t, err)
+}
+
+func TestMaterializedViewGet(t *testing.T) {
+	conn := connectToDatabse(t)
+	defer conn.Close(context.Background())
+
+	sb := materializedViewStruct.SelectFrom("testschema.test_materialized_view")
+
+	sql, args := sb.Build()
+	rows, err := conn.Query(context.Background(), sql, args...)
+	require.NoError(t, err)
+	if !rows.Next() {
+		t.Fatal("no rows returned")
+	}
+
+	var testStruct TestMaterializedViewStruct
+	err = rows.Scan(materializedViewStruct.Addr(&testStruct)...)
+	require.NoError(t, err)
+
+	require.Equal(t, "test_id_1test1test1", testStruct.Data)
+
+	rows.Close()
 }
