@@ -36,7 +36,7 @@ func TestPostgresDatabaseInsertAndGet(t *testing.T) {
 
 	// Insert a single row
 	ib := userStruct.InsertInto("testschema.testtable", TestStruct{
-		ID:               "test_id_1",
+		ID:               "utest_id_1",
 		Name:             "test",
 		Description:      "test",
 		TestArrayOfArray: [][]int{{1, 2, 3}, {4, 5, 6}},
@@ -53,7 +53,7 @@ func TestPostgresDatabaseInsertAndGet(t *testing.T) {
 
 	// get the row
 	sb := userStruct.SelectFrom("testschema.testtable")
-	sb.Where(sb.Equal("id", "test_id_1"))
+	sb.Where(sb.Equal("id", "utest_id_1"))
 	sql, args = sb.Build()
 	rows, err := conn.Query(context.Background(), sql, args...)
 	require.NoError(t, err)
@@ -66,7 +66,7 @@ func TestPostgresDatabaseInsertAndGet(t *testing.T) {
 	err = rows.Scan(userStruct.Addr(&testStruct)...)
 
 	// check data is same
-	require.Equal(t, "test_id_1", testStruct.ID)
+	require.Equal(t, "utest_id_1", testStruct.ID)
 	require.Equal(t, "test", testStruct.Name)
 	require.Equal(t, "test", testStruct.Description)
 	require.Equal(t, [][]int{{1, 2, 3}, {4, 5, 6}}, testStruct.TestArrayOfArray)
@@ -83,7 +83,7 @@ func TestPostgresDatabaseInsertAndGet(t *testing.T) {
 
 	deleteBuilder := userStruct.Flavor.NewDeleteBuilder()
 	deleteBuilder.DeleteFrom("testschema.testtable")
-	deleteBuilder.Where(deleteBuilder.Equal("id", "test_id_1"))
+	deleteBuilder.Where(deleteBuilder.Equal("id", "utest_id_1"))
 	query, args := deleteBuilder.Build()
 
 	_, err = conn.Exec(context.Background(), query, args...)
