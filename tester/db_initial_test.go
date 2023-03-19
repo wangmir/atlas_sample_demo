@@ -14,6 +14,7 @@ type TestStruct struct {
 	ID               string  `db:"id"`
 	Name             string  `db:"name"`
 	Description      string  `db:"description"`
+	NewField         string  `db:"new_field"`
 	TestArrayOfArray [][]int `db:"test_array_of_array"`
 	TestArrayOfInt   []int   `db:"test_array_of_int"`
 }
@@ -46,6 +47,7 @@ func TestInsertAndGet(t *testing.T) {
 		ID:               "utest_id_1",
 		Name:             "test",
 		Description:      "test",
+		NewField:         "default_value_new_field",
 		TestArrayOfArray: [][]int{{1, 2, 3}, {4, 5, 6}},
 		TestArrayOfInt:   []int{1, 2, 3},
 	})
@@ -78,6 +80,7 @@ func TestInsertAndGet(t *testing.T) {
 	require.Equal(t, "test", testStruct.Description)
 	require.Equal(t, [][]int{{1, 2, 3}, {4, 5, 6}}, testStruct.TestArrayOfArray)
 	require.Equal(t, []int{1, 2, 3}, testStruct.TestArrayOfInt)
+	require.Equal(t, "default_value_new_field", testStruct.NewField)
 
 	require.NoError(t, err)
 

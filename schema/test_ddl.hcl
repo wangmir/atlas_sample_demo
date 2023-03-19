@@ -12,9 +12,14 @@ table "testtable" {
     null = false
     type = character_varying(255)
   }
+  column "new_field" {
+    null = false
+    type = character_varying(255)
+    default = "default_value_new_field"
+  }
   column "test_array_of_array" {
     null = true
-    type = sql("integer[]")
+    type = sql("integer[][]")
   }
   column "test_array_of_int" {
     null = true
