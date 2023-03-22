@@ -65,6 +65,22 @@ table "test_new_table" {
   }
 }
 
+table "test_new_composite_table" {
+  schema = schema.testschema
+  column "name" {
+    null = false
+    type = character_varying (255)
+  }
+  column "sample_column_1" {
+    null = false
+    type = character_varying (255)
+  }
+
+  primary_key {
+    columns = [column.name, column.sample_column_1]
+  }
+}
+
 schema "public" {
 }
 schema "testschema" {
