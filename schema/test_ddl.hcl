@@ -71,13 +71,13 @@ table "test_new_composite_table" {
     null = false
     type = character_varying (255)
   }
-  column "sample_column_1" {
+  column "sample_column_2" {
     null = false
     type = character_varying (255)
   }
 
   primary_key {
-    columns = [column.name, column.sample_column_1]
+    columns = [column.name, column.sample_column_2]
   }
 }
 
