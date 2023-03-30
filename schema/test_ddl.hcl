@@ -76,6 +76,44 @@ table "test_new_composite_table" {
     type = character_varying (255)
   }
 
+  column "sample_column_2" {
+    null = false
+    type = character_varying (255)
+    default = "test_default"
+  }
+
+  column "sample_column_3" {
+    null = true
+    type = character_varying (255)
+  }
+
+  primary_key {
+    columns = [column.name, column.sample_column_1]
+  }
+}
+
+table "test_new_composite_table1" {
+  schema = schema.testschema
+  column "name" {
+    null = false
+    type = character_varying (255)
+  }
+  column "sample_column_1" {
+    null = false
+    type = character_varying (255)
+  }
+
+  column "sample_column_2" {
+    null = false
+    type = character_varying (255)
+    default = "test_default"
+  }
+
+  column "sample_column_3" {
+    null = true
+    type = character_varying (255)
+  }
+
   primary_key {
     columns = [column.name, column.sample_column_1]
   }
