@@ -12,11 +12,7 @@ sleep 5
 PGPASSWORD=test1234 psql -h localhost -p 5832 -U postgres -f initdb.sql
 
 # Get current status (empty) of postgressql
-atlas migrate status \
-  --url "postgres://testuser:test1234@localhost:5832/test?sslmode=disable" \
-  --dir "file://migrations"
+atlas migrate status --env local
 
 # Apply schema
-atlas migrate apply \
-  --url "postgres://testuser:test1234@localhost:5832/test?sslmode=disable" \
-  --dir "file://migrations"
+atlas migrate apply --env local
