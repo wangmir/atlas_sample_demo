@@ -91,32 +91,6 @@ table "test_new_composite_table" {
     columns = [column.name, column.sample_column_1]
   }
 }
-table "model_db" {
-  schema = schema.testschema
-  column "model_name" {
-    null = false
-    type = character_varying(16)
-  }
-  column "db_type" {
-    null = false
-    type = character_varying(16)
-  }
-  column "version" {
-    null = false
-    type = character_varying(32)
-  }
-  column "name" {
-    null = false
-    type = character_varying(32)
-  }
-  column "data" {
-    null = false
-    type = text
-  }
-  primary_key {
-    columns = [column.model_name, column.db_type, column.version]
-  }
-}
 table "model_db_signal" {
   schema = schema.testschema
   column "model_name" {
@@ -153,12 +127,6 @@ table "model_db_signal" {
   }
   primary_key {
     columns = [column.model_name, column.db_type, column.version, column.signal_name]
-  }
-  foreign_key "model_db_signal_model_name_db_type_version_fkey" {
-    columns     = [column.model_name, column.db_type, column.version]
-    ref_columns = [table.model_db.column.model_name, table.model_db.column.db_type, table.model_db.column.version]
-    on_update   = NO_ACTION
-    on_delete   = NO_ACTION
   }
 }
 
