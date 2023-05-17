@@ -33,6 +33,10 @@ jobs:
         working-directory: ./main_branch/schema/
         run: ./establish.sh
 
+      - name: Check migration script is regenerated.
+        working-directory: ./main_branch/schema/
+        run: ./update_migration.sh
+
       # apply migration from current pull request
       - name: Run migration script from current pull request
         working-directory: ./schema/

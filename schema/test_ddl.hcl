@@ -155,8 +155,8 @@ table "model_db_signal" {
     columns = [column.model_name, column.db_type, column.version, column.signal_name]
   }
   foreign_key "model_db_signal_model_name_db_type_version_fkey" {
-    columns     = [column.model_name, column.db_type, column.version]
-    ref_columns = [table.model_db.column.model_name, table.model_db.column.db_type, table.model_db.column.version]
+    columns     = [column.model_name, column.version, column.db_type]
+    ref_columns = [table.model_db.column.model_name, table.model_db.column.version, table.model_db.column.db_type]
     on_update   = NO_ACTION
     on_delete   = NO_ACTION
   }
